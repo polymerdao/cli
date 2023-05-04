@@ -381,6 +381,7 @@ ignite chain build [flags]
 **Options**
 
 ```
+      --build.tags strings        parameters to build the chain binary (default [app_v1])
       --check-dependencies        verify that cached dependencies have not been modified since they were downloaded
       --clear-cache               clear the build cache (advanced)
       --debug                     build a debug binary
@@ -568,6 +569,7 @@ ignite chain init [flags]
 **Options**
 
 ```
+      --build.tags strings   parameters to build the chain binary (default [app_v1])
       --check-dependencies   verify that cached dependencies have not been modified since they were downloaded
       --clear-cache          clear the build cache (advanced)
       --debug                build a debug binary
@@ -636,6 +638,7 @@ ignite chain serve [flags]
 **Options**
 
 ```
+      --build.tags strings   parameters to build the chain binary (default [app_v1])
       --check-dependencies   verify that cached dependencies have not been modified since they were downloaded
       --clear-cache          clear the build cache (advanced)
   -f, --force-reset          force reset of the app state on start and every source change
@@ -3046,6 +3049,7 @@ Transactions subcommands
       --address-prefix string    account address prefix (default "cosmos")
       --fees string              fees to pay along with transaction; eg: 10uatom
       --gas string               gas limit to set per-transaction; set to "auto" to calculate sufficient gas automatically (default "auto")
+      --gas-adjustment float     gas adjustment to set per-transaction
       --gas-prices string        gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)
       --generate-only            build an unsigned transaction and write it to STDOUT
   -h, --help                     help for tx
@@ -3082,6 +3086,7 @@ Bank transaction subcommands
       --address-prefix string    account address prefix (default "cosmos")
       --fees string              fees to pay along with transaction; eg: 10uatom
       --gas string               gas limit to set per-transaction; set to "auto" to calculate sufficient gas automatically (default "auto")
+      --gas-adjustment float     gas adjustment to set per-transaction
       --gas-prices string        gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)
       --generate-only            build an unsigned transaction and write it to STDOUT
       --home string              directory where the blockchain node is initialized
@@ -3116,6 +3121,7 @@ ignite node tx bank send [from_account_or_address] [to_account_or_address] [amou
       --address-prefix string    account address prefix (default "cosmos")
       --fees string              fees to pay along with transaction; eg: 10uatom
       --gas string               gas limit to set per-transaction; set to "auto" to calculate sufficient gas automatically (default "auto")
+      --gas-adjustment float     gas adjustment to set per-transaction
       --gas-prices string        gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)
       --generate-only            build an unsigned transaction and write it to STDOUT
       --home string              directory where the blockchain node is initialized
