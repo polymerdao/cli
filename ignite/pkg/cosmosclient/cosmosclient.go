@@ -537,16 +537,21 @@ func (c Client) lockBech32Prefix() (unlockFn func()) {
 }
 
 func (c Client) BroadcastTx(ctx context.Context, account cosmosaccount.Account, msgs ...sdktypes.Msg) (Response, error) {
+	fmt.Printf("zf debug - Client.BroadcastTx - cp1\n")
 	txService, err := c.CreateTx(ctx, account, msgs...)
 	if err != nil {
 		return Response{}, err
 	}
+
+	fmt.Printf("zf debug - Client.BroadcastTx - cp2\n")
 
 	return txService.Broadcast(ctx)
 }
 
 func (c Client) CreateTx(goCtx context.Context, account cosmosaccount.Account, msgs ...sdktypes.Msg) (TxService, error) {
 	defer c.lockBech32Prefix()()
+
+	fmt.Printf("zf debug - Client.CreateTx - cp1\n")
 
 	if c.useFaucet && !c.generateOnly {
 		addr, err := account.Address(c.addressPrefix)
@@ -557,6 +562,8 @@ func (c Client) CreateTx(goCtx context.Context, account cosmosaccount.Account, m
 			return TxService{}, err
 		}
 	}
+
+	fmt.Printf("zf debug - Client.CreateTx - cp2\n")
 
 	sdkaddr, err := account.Record.GetAddress()
 	if err != nil {
@@ -572,15 +579,23 @@ func (c Client) CreateTx(goCtx context.Context, account cosmosaccount.Account, m
 		return TxService{}, err
 	}
 
+	fmt.Printf("zf debug - Client.CreateTx - cp3\n")
+
 	var gas uint64
 	if c.gas != "" && c.gas != GasAuto {
+		fmt.Printf("zf debug - Client.CreateTx - cp3.1\n")
+
 		gas, err = strconv.ParseUint(c.gas, 10, 64)
 		if err != nil {
+			fmt.Printf("zf debug - Client.CreateTx - cp3.11\n")
 			return TxService{}, errors.WithStack(err)
 		}
 	} else {
+		fmt.Printf("zf debug - Client.CreateTx - cp3.2\n")
+
 		_, gas, err = c.gasometer.CalculateGas(ctx, txf, msgs...)
 		if err != nil {
+			fmt.Printf("zf debug - Client.CreateTx - cp3.21\n")
 			return TxService{}, errors.WithStack(err)
 		}
 		// the simulated gas can vary from the actual gas needed for a real transaction
@@ -589,6 +604,8 @@ func (c Client) CreateTx(goCtx context.Context, account cosmosaccount.Account, m
 	}
 	txf = txf.WithGas(gas)
 	txf = txf.WithFees(c.fees)
+
+	fmt.Printf("zf debug - Client.CreateTx - cp4\n")
 
 	if c.gasPrices != "" {
 		txf = txf.WithGasPrices(c.gasPrices)
@@ -602,6 +619,8 @@ func (c Client) CreateTx(goCtx context.Context, account cosmosaccount.Account, m
 	if err != nil {
 		return TxService{}, errors.WithStack(err)
 	}
+	
+	fmt.Printf("zf debug - Client.CreateTx - cp5\n")
 
 	txUnsigned.SetFeeGranter(ctx.GetFeeGranterAddress())
 
