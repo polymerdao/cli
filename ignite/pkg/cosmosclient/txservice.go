@@ -2,6 +2,8 @@ package cosmosclient
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -51,6 +53,8 @@ func (s TxService) Broadcast(ctx context.Context) (Response, error) {
 	if err := handleBroadcastResult(resp, err); err != nil {
 		return Response{}, err
 	}
+
+	fmt.Fprintf(os.Stderr, "xxx got tx hash from response: '%s', full response: '%v'\n", resp.TxHash, resp)
 
 	res, err := s.client.WaitForTx(ctx, resp.TxHash)
 	if err != nil {
